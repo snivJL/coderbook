@@ -54,8 +54,8 @@ export default function HomePage() {
     <Row>
       <Col className="d-flex flex-column pl-1 mt-3">
         <ButtonGroup vertical>
-          {SIDEBAR_BUTTONS.map((button) => {
-            return <SidebarButton {...button} />
+          {SIDEBAR_BUTTONS.map((b) => {
+            return <SidebarButton key={b.title} {...b} />
           })}
         </ButtonGroup>
       </Col>
@@ -65,12 +65,6 @@ export default function HomePage() {
         className="d-flex flex-column align-items-center posts-container"
       >
         <Composer />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
         <Post />
       </Col>
       <Col></Col>

@@ -14,6 +14,7 @@ import "./style.css";
 
 const COMMENTS = [
   {
+    id: 1,
     body: `Loi you're such a talented developer. I hope one day I can be just like you. Hihi =)`,
     user: {
       name: "Charles Lee",
@@ -22,6 +23,7 @@ const COMMENTS = [
     },
   },
   {
+    id: 2,
     body: `Thank you...`,
     user: {
       name: "Loi Tran",
@@ -30,6 +32,7 @@ const COMMENTS = [
     },
   },
   {
+    id: 3,
     body: `SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! SO talented! 
     SO talented! 
     SO talented! 
@@ -81,7 +84,7 @@ const PostComments = (props) => {
     <Card.Body>
       <ListGroup className="list-group-flush">
         {props.comments.map((c) => (
-          <Comment {...c} />
+          <Comment key={c.id} {...c} />
         ))}
       </ListGroup>
     </Card.Body>
@@ -108,7 +111,7 @@ const PostActions = () => {
   return (
     <ButtonGroup aria-label="Basic example">
       {POST_ACTIONS.map((a) => {
-        return <PostActionButton {...a} />;
+        return <PostActionButton key={a.title} {...a} />;
       })}
     </ButtonGroup>
   );
