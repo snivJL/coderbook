@@ -40,6 +40,11 @@ export default function RegisterPage() {
     setUser({...user, [e.target.id]: e.target.value})
   }
 
+  const onRegister = (e) => {
+    e.preventDefault()
+    dispatch(authActions.register(null, user.email, user.password));
+  }
+
   if (isAuthenticated) return <Redirect to="/" />;
 
   return (
@@ -126,6 +131,7 @@ export default function RegisterPage() {
         <Modal.Body>
           {/* TODO 1 */}
           <Form
+            onSubmit={onRegister}
             className="d-flex flex-column justify-content-center"
           >
             <Form.Row>
