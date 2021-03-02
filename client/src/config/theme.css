@@ -1,0 +1,10 @@
+
+:root {
+  --bg-primary: #f0f2f5;
+  --bg-secondary: #E4E6ED;
+  --button-primary: #1877f2;
+}
+
+.box-shadow {
+  box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+}
