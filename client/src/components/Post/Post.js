@@ -135,7 +135,9 @@ function PostHeader({ userWhoCreatedPost }) {
   return (
     <div className="d-flex align-items-center p-3">
       <Avatar url="https://scontent.fsgn5-6.fna.fbcdn.net/v/t1.0-1/p480x480/13924881_10105599279810183_392497317459780337_n.jpg?_nc_cat=109&ccb=3&_nc_sid=7206a8&_nc_ohc=uI6aGTdf9vEAX8-Aev9&_nc_ht=scontent.fsgn5-6.fna&tp=6&oh=e8b18753cb8aa63937829afe3aa916a7&oe=6064C685" />
-      <h3 className="font-weight-bold ml-3">{userWhoCreatedPost.name}</h3>
+      <h3 className="font-weight-bold ml-3">
+        {userWhoCreatedPost && userWhoCreatedPost.name}
+      </h3>
     </div>
   );
 }
