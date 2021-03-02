@@ -6,6 +6,7 @@ import AlertMsg from "./AlertMsg";
 import PublicNavbar from "../../components/PublicNavbar";
 
 import HomePage from "../../pages/HomePage";
+import ProfilePage from "../../pages/ProfilePage";
 import AuthPage from "../../pages/AuthPage";
 import NotFoundPage from "../../pages/NotFoundPage";
 
@@ -17,6 +18,7 @@ const PublicLayout = () => {
         <AlertMsg />
         <Switch>
           <Route exact path="/" component={HomePage} />
+          <Route exact path="/:id" component={ProfilePage} />
           <Route exact path="/auth" component={AuthPage} />
           <Route component={NotFoundPage} />
         </Switch>

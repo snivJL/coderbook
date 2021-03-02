@@ -7,7 +7,7 @@ const initialState = {
   loading: false,
 };
 
-const blogReducer = (state = initialState, action) => {
+const postReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case types.POST_REQUEST:
@@ -99,4 +99,4 @@ const blogReducer = (state = initialState, action) => {
   }
 };
 
-export default blogReducer;
+export default postReducer;

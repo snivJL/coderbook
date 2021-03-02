@@ -1,3 +1,8 @@
-.bg-white:hover {
-  background-color: var(--bg-primary) !important;
+.bg-white {
+  background-color: var(--bg-primary);
+}
+
+.post-text {
+  border-radius: 2rem;
+  background-color: var(--bg-primary);
 }
