@@ -13,7 +13,7 @@ postController.create = catchAsync(async (req, res) => {
   res.json(post);
 });
 
-postController.read = async (req, res) => {
+postController.read = async (req, res, next) => {
   const post = await Post.findOne({ _id: req.params.id });
   if (!post)
     return next(new AppError(404, "Post not found", "Get Single Post Error"));

@@ -99,7 +99,7 @@ const POST_ACTIONS = [
 
 const PostActionButton = ({ title, icon }) => {
   return (
-    <Button className="bg-white text-dark border-0">
+    <Button className="bg-light bg-white text-dark border-0">
       {" "}
       <FontAwesomeIcon
         size="lg"

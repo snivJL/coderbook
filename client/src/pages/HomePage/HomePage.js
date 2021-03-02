@@ -63,7 +63,7 @@ export default function HomePage() {
       <Col className="d-flex flex-column pl-1 mt-3">
         <ButtonGroup vertical>
           {SIDEBAR_BUTTONS.map((b) => {
-            return <SidebarButton key={b.title} {...b} />;
+            return <SidebarButton key={b.title} {...b} />
           })}
         </ButtonGroup>
       </Col>
@@ -76,6 +76,7 @@ export default function HomePage() {
         {posts && posts.map((p) => {
           return <Post {...p} />;
         })}
+
       </Col>
       <Col></Col>
     </Row>
