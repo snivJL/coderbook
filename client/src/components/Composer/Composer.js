@@ -19,6 +19,7 @@ export default function Composer() {
     <Card className="mb-3 w-100">
       <Card.Body>
         {" "}
+        {/* STEP 2 */}
         <Form>
           <Form.Group>
             <Form.Control type="text" placeholder="What's on your mind?" />
