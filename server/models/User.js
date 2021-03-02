@@ -49,7 +49,6 @@ userSchema.methods.toJSON = function () {
   delete obj.createdAt;
   delete obj.updatedAt;  
   delete obj.facebookId;
-  console.log({ lalala: obj });
   return obj;
 };
 

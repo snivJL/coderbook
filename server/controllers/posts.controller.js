@@ -13,7 +13,7 @@ postController.create = catchAsync(async (req, res) => {
   res.json(post);
 });
 
-postController.read = async (req, res) => {
+postController.read = async (req, res, next) => {
   const post = await Post.findOne({ _id: req.params.id });
   if (!post)
     return next(new AppError(404, "Post not found", "Get Single Post Error"));
@@ -51,14 +51,8 @@ postController.destroy = async (req, res) => {
 };
 
 postController.list = async (req, res) => {
-  return sendResponse(
-    res,
-    200,
-    true,
-    { posts: [{ foo: "bar" }] },
-    null,
-    "Login successful"
-  );
+  const posts = await Post.find({}).populate("owner");
+  return sendResponse(res, 200, true, { posts }, null, "Login successful");
 };
 
 module.exports = postController;
