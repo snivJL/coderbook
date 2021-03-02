@@ -17,11 +17,7 @@ import "./style.css";
 
 import { authActions } from "../../redux/actions";
 
-<<<<<<< HEAD
 import Footer from "../../components/Footer";
-=======
-import Footer from '../../components/Footer'
->>>>>>> main
 
 export default function RegisterPage() {
   const dispatch = useDispatch();
@@ -49,11 +45,8 @@ export default function RegisterPage() {
     dispatch(authActions.register(null, user.email, user.password));
   };
 
-<<<<<<< HEAD
   if (isAuthenticated) return <Redirect to="/" />;
 
-=======
->>>>>>> main
   return (
     <div>
       <Helmet>
