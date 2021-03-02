@@ -49,15 +49,15 @@ const Avatar = (props) => {
 const CommentForm = () => {
   return (
     <Form>
-        <Form.Row>
-          <Col className="d-flex">
-            <Form.Control
-              size="sm"
-              type="text"
-              placeholder="Write a comment..."
-            />
-          </Col>
-        </Form.Row>
+      <Form.Row>
+        <Col className="d-flex">
+          <Form.Control
+            size="sm"
+            type="text"
+            placeholder="Write a comment..."
+          />
+        </Col>
+      </Form.Row>
     </Form>
   );
 };
@@ -98,7 +98,7 @@ const PostActionButton = ({ title, icon }) => {
   return (
     <Button className="bg-white text-dark border-0">
       {" "}
-      <FontAwesomeIcon size="lg" icon={icon} color="black" className="mr-2" />
+      <FontAwesomeIcon size="lg" icon={icon} color="black" className="mr-2 action-icon" />
       {title}
     </Button>
   );
@@ -116,9 +116,9 @@ const PostActions = () => {
 
 const PostReactions = () => {
   return (
-    <div className="d-flex justify-content-between my-3">
-      <p>Hung Le, Leo Vo and 21 others</p>
-      <p>20 comments</p>
+    <div className="d-flex justify-content-between my-2 mx-3">
+      <p className="mb-0">Hung Le, Leo Vo and 21 others</p>
+      <p className="mb-0">20 comments</p>
     </div>
   );
 };
@@ -141,9 +141,9 @@ export default function Post() {
         src="https://images.unsplash.com/photo-1529231812519-f0dcfdf0445f?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8dGFsZW50ZWR8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
       />
       <PostReactions />
-      <hr />
+      <hr className="my-1" />
       <PostActions />
-      <hr />
+      <hr className="mt-1" />
       <PostComments comments={COMMENTS} />
       <CommentForm />
     </Card>

@@ -7,6 +7,10 @@
   height: 3rem;
 }
 
+.action-icon {
+  color: grey;
+}
+
 .comment-bubble {
   padding: 1rem;
   overflow: hidden;
