@@ -131,7 +131,10 @@ export default function RegisterPage() {
         <Modal.Body>
           {/* STEP 1 */}
           <Form
+<<<<<<< HEAD
             onSubmit={onRegister}
+=======
+>>>>>>> main
             className="d-flex flex-column justify-content-center"
           >
             <Form.Row>

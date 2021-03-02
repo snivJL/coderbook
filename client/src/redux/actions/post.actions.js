@@ -85,7 +85,7 @@ const createPost = (body, images) => async (dispatch) => {
       type: types.CREATE_POST_SUCCESS,
     });
     dispatch(routeActions.redirect("__GO_BACK__"));
-    toast.success("Post Created");
+    toast.success("Post created.");
   } catch (error) {
     dispatch({ type: types.CREATE_POST_FAILURE, payload: error });
   }
@@ -104,7 +104,7 @@ const updatePost = (postId, title, content, images) => async (dispatch) => {
       type: types.UPDATE_POST_SUCCESS,
     });
     dispatch(routeActions.redirect("__GO_BACK__"));
-    toast.success("The blog has been updated!");
+    toast.success("Post updated.");
   } catch (error) {
     dispatch({ type: types.UPDATE_POST_FAILURE, payload: error });
   }
@@ -120,7 +120,7 @@ const deletePost = (postId) => async (dispatch) => {
       type: types.DELETE_POST_SUCCESS,
     });
     dispatch(routeActions.redirect("__GO_BACK__"));
-    toast.success("The blog has been deleted!");
+    toast.success("Post deleted.");
   } catch (error) {
     dispatch({ type: types.DELETE_POST_FAILURE, payload: error });
   }
