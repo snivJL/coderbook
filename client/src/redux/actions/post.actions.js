@@ -35,10 +35,10 @@ const postsRequest = (
   }
 };
 
-const getSingleBlog = (blogId) => async (dispatch) => {
+const getSinglePost = (postId) => async (dispatch) => {
   dispatch({ type: types.GET_SINGLE_POST_REQUEST, payload: null });
   try {
-    const res = await api.get(`/posts/${blogId}`);
+    const res = await api.get(`/posts/${postId}`);
     dispatch({
       type: types.GET_SINGLE_POST_REQUEST_SUCCESS,
       payload: res.data.data,
@@ -48,10 +48,10 @@ const getSingleBlog = (blogId) => async (dispatch) => {
   }
 };
 
-const createReview = (blogId, reviewText) => async (dispatch) => {
+const createReview = (postId, reviewText) => async (dispatch) => {
   dispatch({ type: types.CREATE_REVIEW_REQUEST, payload: null });
   try {
-    const res = await api.post(`/reviews/posts/${blogId}`, {
+    const res = await api.post(`/reviews/posts/${postId}`, {
       content: reviewText,
     });
     dispatch({
@@ -63,7 +63,7 @@ const createReview = (blogId, reviewText) => async (dispatch) => {
   }
 };
 
-const createNewBlog = (title, content, images) => async (dispatch) => {
+const createPost = (body, images) => async (dispatch) => {
   dispatch({ type: types.CREATE_POST_REQUEST, payload: null });
   try {
     // For uploading file manually
@@ -78,30 +78,30 @@ const createNewBlog = (title, content, images) => async (dispatch) => {
     // const res = await api.post("/posts", formData);
 
     // Upload images using cloudinary already
-    const res = await api.post("/posts", { title, content, images });
+    const res = await api.post("/posts", { body, images });
 
     dispatch({
-      type: types.CREATE_POST_SUCCESS,
       payload: res.data.data,
+      type: types.CREATE_POST_SUCCESS,
     });
     dispatch(routeActions.redirect("__GO_BACK__"));
-    toast.success("New blog has been created!");
+    toast.success("Post Created");
   } catch (error) {
     dispatch({ type: types.CREATE_POST_FAILURE, payload: error });
   }
 };
 
-const updateBlog = (blogId, title, content, images) => async (dispatch) => {
+const updatePost = (postId, title, content, images) => async (dispatch) => {
   dispatch({ type: types.UPDATE_POST_REQUEST, payload: null });
   try {
     // let formData = new FormData();
     // formData.set("title", title);
     // formData.set("content", content);
-    const res = await api.put(`/posts/${blogId}`, { title, content, images });
+    const res = await api.put(`/posts/${postId}`, { title, content, images });
 
     dispatch({
-      type: types.UPDATE_POST_SUCCESS,
       payload: res.data.data,
+      type: types.UPDATE_POST_SUCCESS,
     });
     dispatch(routeActions.redirect("__GO_BACK__"));
     toast.success("The blog has been updated!");
@@ -110,14 +110,14 @@ const updateBlog = (blogId, title, content, images) => async (dispatch) => {
   }
 };
 
-const deleteBlog = (blogId) => async (dispatch) => {
+const deletePost = (postId) => async (dispatch) => {
   dispatch({ type: types.DELETE_POST_REQUEST, payload: null });
   try {
-    const res = await api.delete(`/posts/${blogId}`);
+    const res = await api.delete(`/posts/${postId}`);
     console.log(res);
     dispatch({
-      type: types.DELETE_POST_SUCCESS,
       payload: res.data,
+      type: types.DELETE_POST_SUCCESS,
     });
     dispatch(routeActions.redirect("__GO_BACK__"));
     toast.success("The blog has been deleted!");
@@ -126,14 +126,14 @@ const deleteBlog = (blogId) => async (dispatch) => {
   }
 };
 
-const sendEmojiReaction = (targetType, targetId, emoji) => async (dispatch) => {
+const createPostReaction = (targetType, targetId, emoji) => async (dispatch) => {
   dispatch({ type: types.SEND_REACTION_REQUEST, payload: null });
   try {
     const res = await api.post(`/reactions`, { targetType, targetId, emoji });
     if (targetType === "Blog") {
       dispatch({
-        type: types.POST_REACTION_SUCCESS,
         payload: res.data.data,
+        type: types.POST_REACTION_SUCCESS,
       });
     }
     if (targetType === "Review") {
@@ -149,10 +149,10 @@ const sendEmojiReaction = (targetType, targetId, emoji) => async (dispatch) => {
 
 export const postActions = {
   postsRequest,
-  getSingleBlog,
+  getSinglePost,
   createReview,
-  createNewBlog,
-  updateBlog,
-  deleteBlog,
-  sendEmojiReaction,
+  createPost,
+  updatePost,
+  deletePost,
+  createPostReaction,
 };

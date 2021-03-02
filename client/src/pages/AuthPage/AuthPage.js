@@ -17,7 +17,7 @@ import "./style.css";
 
 import { authActions } from "../../redux/actions";
 
-import Footer from '../../components/Footer'
+import Footer from "../../components/Footer";
 
 export default function RegisterPage() {
   const dispatch = useDispatch();
@@ -37,13 +37,13 @@ export default function RegisterPage() {
   };
 
   const onChange = (e) => {
-    setUser({...user, [e.target.id]: e.target.value})
-  }
+    setUser({ ...user, [e.target.id]: e.target.value });
+  };
 
   const onRegister = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     dispatch(authActions.register(null, user.email, user.password));
-  }
+  };
 
   if (isAuthenticated) return <Redirect to="/" />;
 
@@ -129,7 +129,7 @@ export default function RegisterPage() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* TODO 1 */}
+          {/* STEP 1 */}
           <Form
             onSubmit={onRegister}
             className="d-flex flex-column justify-content-center"
