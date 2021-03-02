@@ -17,25 +17,7 @@ import "./style.css";
 
 import { authActions } from "../../redux/actions";
 
-const Footer = () => {
-  const now = new Date();
-  const year = now.getFullYear();
-
-  return (
-    <Container
-      fluid
-      className="d-flex align-items-center justify-content-center"
-    >
-      <p className="d-flex align-items-center justify-content-center footer">
-        Made with ❤️ by {"  "}
-        <a className="m-1" href="https://github.com/PrimeTimeTran">
-          PrimeTimeTran
-        </a>
-        {year}
-      </p>
-    </Container>
-  );
-};
+import Footer from '../../components/Footer'
 
 export default function RegisterPage() {
   const dispatch = useDispatch();
@@ -51,7 +33,6 @@ export default function RegisterPage() {
 
   const onLogin = (e) => {
     e.preventDefault();
-    console.log("login");
     dispatch(authActions.loginRequest(user.email, user.password));
   };
 
@@ -60,7 +41,6 @@ export default function RegisterPage() {
   }
 
   if (isAuthenticated) return <Redirect to="/" />;
-
 
   return (
     <div>
@@ -130,8 +110,8 @@ export default function RegisterPage() {
       </Container>
       <Modal
         show={show}
-        onHide={() => setShow(false)}
         dialogClassName="modal-90w"
+        onHide={() => setShow(false)}
         aria-labelledby="example-custom-modal-styling-title"
         className="d-flex align-items-center justify-content-center"
       >
@@ -144,16 +124,26 @@ export default function RegisterPage() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form className="d-flex flex-column justify-content-center">
+          {/* TODO 1 */}
+          <Form
+            className="d-flex flex-column justify-content-center"
+          >
             <Form.Row>
-              <Form.Group as={Col} controlId="formGridEmail">
+              <Form.Group as={Col} controlId="email">
                 <Form.Label>Email</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
+                <Form.Control
+                  type="email"
+                  onChange={onChange}
+                  placeholder="Enter email"
+                />
               </Form.Group>
-
-              <Form.Group as={Col} controlId="formGridPassword">
+              <Form.Group as={Col} controlId="password">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
+                <Form.Control
+                  type="password"
+                  onChange={onChange}
+                  placeholder="Password"
+                />
               </Form.Group>
             </Form.Row>
             <p className="text-center p-terms">
