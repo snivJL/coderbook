@@ -76,7 +76,6 @@ export default function HomePage() {
         {posts && posts.map((p) => {
           return <Post {...p} />;
         })}
-
       </Col>
       <Col></Col>
     </Row>

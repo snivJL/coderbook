@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
-  Navbar,
   Nav,
   Form,
+  Navbar,
   FormControl,
   NavDropdown,
 } from "react-bootstrap";
@@ -26,6 +26,11 @@ const PublicNavbar = () => {
 
   const authLinks = (
     <Nav>
+      <Nav.Link href="/PrimeTimeTran">
+        <div className="nav-icon">
+          <FontAwesomeIcon icon="user" size="lg" />
+        </div>
+      </Nav.Link>
       <Nav.Link href="#create">
         <div className="nav-icon">
           <FontAwesomeIcon icon={"plus"} size="lg" />
@@ -73,13 +78,13 @@ const PublicNavbar = () => {
   return (
     <Navbar bg="light" expand="lg" className="sticky-top box-shadow">
       <Navbar.Brand as={Link} to="/" className="mr-auto ">
-        <img src={logo} alt="Facebook" width="50px" />
+        <img src={logo} alt="coderbook" width="50px" />
       </Navbar.Brand>
       <Form inline className="ml-5 w-100">
         <FormControl
           type="text"
           placeholder="Search"
-          className="mr-sm-2 mw-200"
+          className="mr-sm-2 rounded-pill search-bar"
         />
       </Form>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
