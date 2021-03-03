@@ -49,6 +49,7 @@ const Avatar = (props) => {
   return <img alt="profile" className="rounded-circle" src={props.url} />;
 };
 
+/* STEP 4 */
 const CommentForm = () => {
   return (
     <Form>
@@ -57,8 +58,8 @@ const CommentForm = () => {
           <Form.Control
             size="sm"
             type="text"
-            className="border-0 rounded-md bg-light"
             placeholder="Write a comment..."
+            className="border-0 rounded-md bg-light"
           />
         </Col>
       </Form.Row>
@@ -126,28 +127,27 @@ const PostActions = () => {
 const PostReactions = () => {
   return (
     <div className="d-flex justify-content-between my-2 mx-3">
-      <p className="mb-0">Hung Le, Leo Vo and 21 others</p>
+      <p className="mb-0">Vinh Nguyen, Bitna Kim and 21 others</p>
       <p className="mb-0">20 comments</p>
     </div>
   );
 };
 
-function PostHeader({ userWhoCreatedPost }) {
+function PostHeader() {
   return (
     <div className="d-flex align-items-center p-3">
       <Avatar url="https://scontent.fsgn5-6.fna.fbcdn.net/v/t1.0-1/p480x480/13924881_10105599279810183_392497317459780337_n.jpg?_nc_cat=109&ccb=3&_nc_sid=7206a8&_nc_ohc=uI6aGTdf9vEAX8-Aev9&_nc_ht=scontent.fsgn5-6.fna&tp=6&oh=e8b18753cb8aa63937829afe3aa916a7&oe=6064C685" />
       <h3 className="font-weight-bold ml-3">
-        {userWhoCreatedPost && userWhoCreatedPost.name}
+        Charles Lee
       </h3>
     </div>
   );
 }
 
-export default function Post(props) {
+export default function Post() {
   return (
     <Card className="p-3 mb-3 shadow rounded-md">
-      <PostHeader userWhoCreatedPost={props.owner} />
-      {props.body}
+      <PostHeader/>
       <Card.Img
         variant="top"
         src="https://images.unsplash.com/photo-1529231812519-f0dcfdf0445f?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8dGFsZW50ZWR8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
