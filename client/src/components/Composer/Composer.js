@@ -9,7 +9,7 @@ import { postActions } from "../../redux/actions";
 
 const ComposerButton = ({ title, icon }) => {
   return (
-    <Button className="d-flex justify-content-center align-items-center bg-light bg-white text-dark border-0 rounded">
+    <Button className="d-flex justify-content-center align-items-center bg-light bg-white text-dark border-0 rounded-md">
       {" "}
       <FontAwesomeIcon icon={icon} className="mr-2" size="lg" />
       {title}
@@ -31,7 +31,7 @@ export default function Composer() {
   };
 
   return (
-    <Card className="mb-3 w-100">
+    <Card className="mb-3 w-100 shadow composer-card">
       <Card.Body className="px-3 pt-3">
         {" "}
         {/* STEP 2 */}
@@ -41,7 +41,7 @@ export default function Composer() {
               id="body"
               type="text"
               onChange={onChange}
-              className="post-text" 
+              className="border-0 rounded-md post-text"
               placeholder="What's on your mind?"
             />
           </Form.Group>

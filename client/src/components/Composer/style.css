@@ -1,8 +1,10 @@
+
 .bg-white {
   background-color: var(--bg-primary);
 }
 
 .post-text {
-  border-radius: 2rem;
+  border: none;
+  border-radius: 1.5rem;
   background-color: var(--bg-primary);
 }

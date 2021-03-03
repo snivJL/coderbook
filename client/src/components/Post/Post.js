@@ -57,6 +57,7 @@ const CommentForm = () => {
           <Form.Control
             size="sm"
             type="text"
+            className="border-0 rounded-md bg-light"
             placeholder="Write a comment..."
           />
         </Col>
@@ -144,7 +145,7 @@ function PostHeader({ userWhoCreatedPost }) {
 
 export default function Post(props) {
   return (
-    <Card className="p-3 mb-3 rounded">
+    <Card className="p-3 mb-3 shadow rounded-md">
       <PostHeader userWhoCreatedPost={props.owner} />
       {props.body}
       <Card.Img

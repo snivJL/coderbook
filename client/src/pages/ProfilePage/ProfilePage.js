@@ -13,7 +13,7 @@ export default function ProfilePage() {
         <Container className="d-flex align-items-center justify-content-center mb-5 cover-container">
           <img
             alt="lighthouse"
-            className="img-fluid rounded"
+            className="img-fluid rounded-md"
             src="https://images.unsplash.com/photo-1507725914440-e1e434774828?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&w=2389&q=100"
           />
           <img
@@ -32,19 +32,29 @@ export default function ProfilePage() {
               onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}
             >
               <Nav.Item>
-                <Nav.Link href="/posts">Posts</Nav.Link>
+                <Nav.Link className="text-secondary" href="/posts">
+                  Posts
+                </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="/about">About</Nav.Link>
+                <Nav.Link className="text-secondary" href="/about">
+                  About
+                </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="/friends">Friends</Nav.Link>
+                <Nav.Link className="text-secondary" href="/friends">
+                  Friends
+                </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="/photos">Photos</Nav.Link>
+                <Nav.Link className="text-secondary" href="/photos">
+                  Photos
+                </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="/more">More</Nav.Link>
+                <Nav.Link className="text-secondary" href="/more">
+                  More
+                </Nav.Link>
               </Nav.Item>
             </Nav>
           </Container>
@@ -54,20 +64,28 @@ export default function ProfilePage() {
               className="d-flex p-2 align-items-between justify-content-between"
               aria-label="First group"
             >
-              <Button variant="light">Edit</Button>
-              <Button variant="light">View As</Button>
-              <Button variant="light">Search</Button>
-              <Button variant="light">Settings</Button>
+              <Button variant="light" className="rounded-sm mr-1">
+                Edit
+              </Button>
+              <Button variant="light" className="rounded-sm mr-1">
+                View As
+              </Button>
+              <Button variant="light" className="rounded-sm mr-1">
+                Search
+              </Button>
+              <Button variant="light" className="rounded-sm mr-1">
+                Settings
+              </Button>
             </ButtonGroup>
           </Container>
         </Container>
       </Row>
       <Row className="mt-3 profile-content">
-        <Col className="d-flex justify-content-end">
-          <h1>Sidebar</h1>
-        </Col>
-        <Col className="d-flex posts-col">
-          <Col>
+        <Container className="d-flex">
+          <Col xs={5} className="d-flex justify-content-end">
+            <h1>Sidebar</h1>
+          </Col>
+          <Col xs={7} className="posts-col">
             <Composer />
             <h1>Post</h1>
             <h1>Post</h1>
@@ -97,8 +115,7 @@ export default function ProfilePage() {
             <h1>Post</h1>
             <h1>Post</h1>
           </Col>
-          <Col></Col>
-        </Col>
+        </Container>
       </Row>
     </div>
   );

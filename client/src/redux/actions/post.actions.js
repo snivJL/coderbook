@@ -85,11 +85,7 @@ const createPost = (body, images) => async (dispatch) => {
       type: types.CREATE_POST_SUCCESS,
     });
     dispatch(routeActions.redirect("__GO_BACK__"));
-<<<<<<< HEAD
-    toast.success("Post created.");
-=======
     toast.success("Post created");
->>>>>>> main
   } catch (error) {
     dispatch({ type: types.CREATE_POST_FAILURE, payload: error });
   }

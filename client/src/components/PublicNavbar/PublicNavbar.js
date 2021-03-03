@@ -84,7 +84,7 @@ const PublicNavbar = () => {
         <FormControl
           type="text"
           placeholder="Search"
-          className="mr-sm-2 rounded-pill search-bar"
+          className="mr-sm-2 rounded-pill border-0 rounded-md search-bar"
         />
       </Form>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
