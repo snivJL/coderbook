@@ -41,8 +41,8 @@ export default function Composer() {
               id="body"
               type="text"
               onChange={onChange}
+              className="post-text" 
               placeholder="What's on your mind?"
-
             />
           </Form.Group>
         </Form>
