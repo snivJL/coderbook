@@ -4,6 +4,7 @@ import { Switch, Route } from "react-router-dom";
 
 import AlertMsg from "./AlertMsg";
 import PublicNavbar from "../../components/PublicNavbar";
+import PrivateRoute from '../PrivateRoute'
 
 import HomePage from "../../pages/HomePage";
 import ProfilePage from "../../pages/ProfilePage";
@@ -20,6 +21,7 @@ const PublicLayout = () => {
           <Route exact path="/" component={HomePage} />
           <Route exact path="/:id" component={ProfilePage} />
           <Route exact path="/auth" component={AuthPage} />
+          <PrivateRoute exact path="/:id" component={ProfilePage} />
           <Route component={NotFoundPage} />
         </Switch>
       </Container>
