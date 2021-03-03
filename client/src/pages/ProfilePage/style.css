@@ -4,6 +4,10 @@
   justify-content: center;
 }
 
+.cover-container {
+  height: 50vh;
+}
+
 .hero {
   background-color: #D3D3D3; /* For browsers that do not support gradients */
   background-image: linear-gradient(#D3D3D3, white);
@@ -13,11 +17,10 @@
   top: -10rem;
   position: relative;
   border-radius: 1%;
-  margin-bottom: 3rem;
 }
 
 .cover-profile-photo {
-  top: 27rem;
+  bottom: 27rem;
   width: 10rem;
   height: 10rem;
   position: absolute;

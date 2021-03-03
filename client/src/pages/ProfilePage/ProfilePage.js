@@ -10,10 +10,10 @@ export default function ProfilePage() {
   return (
     <div>
       <Row className="centered hero">
-        <Container className="d-flex align-items-center justify-content-center">
+        <Container className="d-flex align-items-center justify-content-center mb-5 cover-container">
           <img
             alt="lighthouse"
-            className="img-fluid"
+            className="img-fluid rounded"
             src="https://images.unsplash.com/photo-1507725914440-e1e434774828?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&w=2389&q=100"
           />
           <img
