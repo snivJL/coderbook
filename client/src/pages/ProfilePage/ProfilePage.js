@@ -10,11 +10,11 @@ export default function ProfilePage() {
   return (
     <div>
       <Row className="centered hero">
-        <Container className="d-flex align-items-center justify-content-center h-50">
+        <Container className="d-flex align-items-center justify-content-center">
           <img
             alt="lighthouse"
-            className="cover"
-            src="https://images.unsplash.com/photo-1614248550370-1456f7da781f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2389&q=80"
+            className="img-fluid"
+            src="https://images.unsplash.com/photo-1507725914440-e1e434774828?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&w=2389&q=100"
           />
           <img
             alt="profile"
@@ -67,7 +67,7 @@ export default function ProfilePage() {
           <h1>Sidebar</h1>
         </Col>
         <Col className="d-flex posts-col">
-          <Col md="8">
+          <Col>
             <Composer />
             <h1>Post</h1>
             <h1>Post</h1>
