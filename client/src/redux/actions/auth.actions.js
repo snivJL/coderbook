@@ -13,8 +13,6 @@ const loginRequest = (email, password) => async (dispatch) => {
     api.defaults.headers.common["authorization"] =
       "Bearer " + res.data.data.accessToken;
 
-    console.log({ lalala: res.data.data.accessToken });
-
     localStorage.setItem("accessToken", res.data.data.accessToken);
   } catch (error) {
     dispatch({ type: types.LOGIN_FAILURE, payload: error });
