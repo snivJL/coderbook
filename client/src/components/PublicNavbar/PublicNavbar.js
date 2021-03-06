@@ -20,12 +20,12 @@ const PublicNavbar = () => {
 
   const authLinks = (
     <Nav>
-      <Nav.Link href="/PrimeTimeTran">
+      <Link to={`/${user._id}`}>
         <div className="">
           <img className="w-100 rounded-circle" src={user.avatarUrl} alt="" />
           {/* <FontAwesomeIcon icon="user" size="lg" /> */}
         </div>
-      </Nav.Link>
+      </Link>
       <Nav.Link href="#create">
         <div className="nav-icon">
           <FontAwesomeIcon icon={"plus"} size="lg" />

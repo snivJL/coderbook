@@ -42,12 +42,12 @@ userSchema.statics.findOrCreate = function findOrCreate(profile, cb) {
 
 userSchema.methods.toJSON = function () {
   const obj = this.toObject();
-  delete obj._id;
+  // delete obj._id;
   delete obj.__v;
   delete obj.googleId;
   delete obj.password;
   delete obj.createdAt;
-  delete obj.updatedAt;  
+  delete obj.updatedAt;
   delete obj.facebookId;
   return obj;
 };

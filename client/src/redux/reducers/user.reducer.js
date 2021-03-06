@@ -27,6 +27,7 @@ const userReducer = (state = initialState, action) => {
     case types.CANCEL_REQUEST_REQUEST:
     case types.DECLINE_REQUEST_REQUEST:
     case types.GET_CONVERSATIONS_REQUEST:
+    case types.SEARCH_SINGLE_USER_REQUEST:
       return { ...state, loading: true };
 
     case types.GET_SENT_FAILURE:
@@ -39,6 +40,7 @@ const userReducer = (state = initialState, action) => {
     case types.ACCEPT_REQUEST_FAILURE:
     case types.CANCEL_REQUEST_FAILURE:
     case types.GET_CONVERSATIONS_FAILURE:
+    case types.SEARCH_SINGLE_USER_FAILURE:
       return { ...state, loading: false };
 
     case types.GET_SENT_SUCCESS:
@@ -51,7 +53,8 @@ const userReducer = (state = initialState, action) => {
         users: payload.users,
         totalPageNum: payload.totalPages,
       };
-
+    case types.SEARCH_SINGLE_USER_SUCCESS:
+      return { ...state, selectedUser: payload, loading: false };
     case types.GET_CONVERSATIONS_SUCCESS:
       return {
         ...state,

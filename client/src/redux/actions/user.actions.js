@@ -200,6 +200,16 @@ const cancelRequest = (userId) => async (dispatch) => {
   }
 };
 
+const searchSingleUser = (userID) => async (dispatch) => {
+  dispatch({ type: types.SEARCH_SINGLE_USER_REQUEST, payload: null });
+
+  try {
+    const { data } = await api.get(`/users/${userID}`);
+    dispatch({ type: types.SEARCH_SINGLE_USER_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: types.SEARCH_SINGLE_USER_FAILURE, payload: error });
+  }
+};
 export const userActions = {
   usersRequest,
   friendsRequest,
@@ -211,4 +221,5 @@ export const userActions = {
   acceptRequest,
   cancelRequest,
   conversationsRequest,
+  searchSingleUser,
 };

@@ -100,7 +100,7 @@ postController.createReaction = catchAsync(async (req, res, next) => {
     post: req.params.id,
   });
   const post = await Post.findById(req.params.id);
-  post.reactions.push({
+  post.reactions.like({
     owner: req.userId,
     body: reaction.body,
     postId: req.params.id,
