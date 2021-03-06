@@ -28,9 +28,10 @@ const postsRequest = (
     );
     dispatch({
       type: types.POST_REQUEST_SUCCESS,
-      payload: res.data.data,
+      payload: res.data,
     });
   } catch (error) {
+    console.error(error);
     dispatch({ type: types.POST_REQUEST_FAILURE, payload: error });
   }
 };
@@ -114,7 +115,6 @@ const deletePost = (postId) => async (dispatch) => {
   dispatch({ type: types.DELETE_POST_REQUEST, payload: null });
   try {
     const res = await api.delete(`/posts/${postId}`);
-    console.log(res);
     dispatch({
       payload: res.data,
       type: types.DELETE_POST_SUCCESS,
@@ -126,7 +126,9 @@ const deletePost = (postId) => async (dispatch) => {
   }
 };
 
-const createPostReaction = (targetType, targetId, emoji) => async (dispatch) => {
+const createPostReaction = (targetType, targetId, emoji) => async (
+  dispatch
+) => {
   dispatch({ type: types.SEND_REACTION_REQUEST, payload: null });
   try {
     const res = await api.post(`/reactions`, { targetType, targetId, emoji });

@@ -10,10 +10,11 @@ const {
 const commentsController = {};
 
 commentsController.create = catchAsync(async (req, res) => {
+  console.log(req);
   const comment = await Comment.create({
+    ...req.body,
     owner: req.userId,
-    body: req.body.body,
-    post: req.body.postId,
+    post: req.params.id,
   });
 
   // Here we'd need to update the post as well.

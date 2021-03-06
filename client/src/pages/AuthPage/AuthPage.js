@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { Link, Redirect } from "react-router-dom";
-
+import FacebookLogin from "react-facebook-login";
+import { GoogleLogin } from "react-google-login";
+import api from "../../redux/api";
 import {
   Col,
   Row,
@@ -22,8 +24,9 @@ import Footer from "../../components/Footer";
 export default function RegisterPage() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
-  const [user, setUser] = useState({ email: "", password: "" });
+  const FB_APP_ID = process.env.REACT_APP_FB_APP_ID;
+  const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  const [user, setUser] = useState({ name: "", email: "", password: "" });
   const [show, setShow] = useState(false);
 
   const onToggleModal = (e) => {
@@ -35,11 +38,26 @@ export default function RegisterPage() {
     e.preventDefault();
     dispatch(authActions.loginRequest(user.email, user.password));
   };
-
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(authActions.register(user.name, user.email, user.password));
+  };
   const onChange = (e) => {
+    console.log(user);
     setUser({ ...user, [e.target.id]: e.target.value });
   };
-
+  const oauthLogin = async (user, authProvider) => {
+    console.log(user);
+    const access_token = user.accessToken;
+    const url = `/auth/login/${authProvider}`;
+    const res = await api.post(url, { access_token });
+    const newUser = res.data.user;
+    if (newUser) {
+      newUser.authenticated = true;
+      newUser.provider = authProvider;
+      setUser(newUser);
+    }
+  };
   if (isAuthenticated) return <Redirect to="/" />;
 
   return (
@@ -103,6 +121,26 @@ export default function RegisterPage() {
                 >
                   Create an account
                 </Button>
+                <Form.Group>
+                  <FacebookLogin
+                    className="mx-auto w-30 font-weight-bold"
+                    appId={FB_APP_ID}
+                    icon="fa-facebook"
+                    fields="name,email,picture"
+                    callback={(u) =>
+                      dispatch(authActions.loginFacebookRequest(u))
+                    }
+                    onFailure={() => console.log("Facebook Login Failure")}
+                  />
+                  <GoogleLogin
+                    clientId={GOOGLE_CLIENT_ID}
+                    buttonText="Login with Google"
+                    onSuccess={(u) =>
+                      dispatch(authActions.loginGoogleRequest(u))
+                    }
+                    onFailure={() => console.log("Google Login Failure")}
+                  />
+                </Form.Group>
               </Form>
             </Card>
           </Col>
@@ -125,11 +163,23 @@ export default function RegisterPage() {
         </Modal.Header>
         <Modal.Body>
           {/* STEP 1 */}
-          <Form className="d-flex flex-column justify-content-center">
+          <Form
+            onSubmit={onSubmit}
+            className="d-flex flex-column justify-content-center"
+          >
             <Form.Row>
+              <Form.Group as={Col} controlId="name">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  onChange={onChange}
+                  type="text"
+                  placeholder="Enter name"
+                />
+              </Form.Group>
               <Form.Group as={Col} controlId="email">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
+                  onChange={onChange}
                   type="email"
                   placeholder="Enter email"
                 />
@@ -137,6 +187,7 @@ export default function RegisterPage() {
               <Form.Group as={Col} controlId="password">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
+                  onChange={onChange}
                   type="password"
                   placeholder="Password"
                 />

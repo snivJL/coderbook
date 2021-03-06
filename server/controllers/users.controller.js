@@ -9,7 +9,7 @@ const User = require("../models/User");
 const userController = {};
 
 userController.create = catchAsync(async (req, res, next) => {
-  let { email, password } = req.body;
+  let { name, email, password } = req.body;
   let user = await User.findOne({ email });
 
   if (user)
@@ -18,6 +18,7 @@ userController.create = catchAsync(async (req, res, next) => {
   const salt = await bcrypt.genSalt(10);
   password = await bcrypt.hash(password, salt);
   user = await User.create({
+    name,
     email,
     password,
   });
@@ -30,13 +31,23 @@ userController.create = catchAsync(async (req, res, next) => {
     null,
     "Create user successful"
   );
-})
+});
 
 userController.read = async (req, res) => {
   const user = await User.findOne({ _id: req.params.id });
   if (!user) {
     res.status(404).json({ message: "User not Found" });
   } else {
+    res.json(user);
+  }
+};
+
+userController.readMe = async (req, res) => {
+  const user = await User.findOne({ _id: req.userId });
+  if (!user) {
+    res.status(404).json({ message: "User not Found" });
+  } else {
+    console.log(user);
     res.json(user);
   }
 };

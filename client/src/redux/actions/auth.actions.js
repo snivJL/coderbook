@@ -19,29 +19,35 @@ const loginRequest = (email, password) => async (dispatch) => {
   }
 };
 
-const loginFacebookRequest = (access_token) => async (dispatch) => {
+const loginFacebookRequest = (user) => async (dispatch) => {
+  const access_token = user.accessToken;
   dispatch({ type: types.LOGIN_FACEBOOK_REQUEST, payload: null });
   try {
     const res = await api.post("/auth/login/facebook", { access_token });
-    const name = res.data.data.user.name;
+    console.log("response token", res.data.accessToken);
+    const name = res.data.user.name;
     toast.success(`Welcome ${name}`);
-    dispatch({ type: types.LOGIN_FACEBOOK_SUCCESS, payload: res.data.data });
+
+    dispatch({ type: types.LOGIN_FACEBOOK_SUCCESS, payload: res.data.user });
     api.defaults.headers.common["authorization"] =
-      "Bearer " + res.data.data.accessToken;
+      "Bearer " + res.data.accessToken;
+    localStorage.setItem("accessToken", res.data.accessToken);
   } catch (error) {
     dispatch({ type: types.LOGIN_FACEBOOK_FAILURE, payload: error });
   }
 };
 
-const loginGoogleRequest = (access_token) => async (dispatch) => {
+const loginGoogleRequest = (user) => async (dispatch) => {
+  const access_token = user.accessToken;
   dispatch({ type: types.LOGIN_GOOGLE_REQUEST, payload: null });
   try {
     const res = await api.post("/auth/login/google", { access_token });
-    const name = res.data.data.user.name;
+    const name = res.data.user.name;
     toast.success(`Welcome ${name}`);
-    dispatch({ type: types.LOGIN_GOOGLE_SUCCESS, payload: res.data.data });
+    dispatch({ type: types.LOGIN_GOOGLE_SUCCESS, payload: res.data });
     api.defaults.headers.common["authorization"] =
-      "Bearer " + res.data.data.accessToken;
+      "Bearer " + res.data.accessToken;
+    localStorage.setItem("accessToken", res.data.accessToken);
   } catch (error) {
     dispatch({ type: types.LOGIN_GOOGLE_FAILURE, payload: error });
   }
@@ -90,8 +96,8 @@ const getCurrentUser = (accessToken) => async (dispatch) => {
     api.defaults.headers.common["authorization"] = bearerToken;
   }
   try {
-    const res = await api.get("/users/me");
-    dispatch({ type: types.GET_CURRENT_USER_SUCCESS, payload: res.data.data });
+    const { data } = await api.get("/users/me");
+    dispatch({ type: types.GET_CURRENT_USER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: types.GET_CURRENT_USER_FAILURE, payload: error });
   }

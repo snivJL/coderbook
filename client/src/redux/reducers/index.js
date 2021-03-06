@@ -4,6 +4,7 @@ import authReducer from "./auth.reducer";
 import alertReducer from "./alert.reducer";
 import userReducer from "./user.reducer";
 import routeReducer from "./route.reducer";
+import commentReducer from "./comment.reducer";
 
 export default combineReducers({
   post: postReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   alert: alertReducer,
   user: userReducer,
   route: routeReducer,
+  comment: commentReducer,
 });

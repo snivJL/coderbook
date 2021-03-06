@@ -20,9 +20,11 @@ const postReducer = (state = initialState, action) => {
     case types.POST_REQUEST_SUCCESS:
       return {
         ...state,
+        posts: [...state.posts, payload.posts].flat(),
+        totalPageNum: payload.pageCount,
+        numPosts: payload.numPosts,
+        hasMore: payload.pageCount > payload.page,
         loading: false,
-        posts: payload.posts,
-        totalPageNum: payload.totalPages,
       };
 
     case types.GET_SINGLE_POST_REQUEST_SUCCESS:

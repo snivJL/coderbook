@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
-
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { postActions } from "../../redux/actions/post.actions";
+import { authActions } from "../../redux/actions/auth.actions";
+import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { Row, Col, Button, ButtonGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import "./style.css";
 
@@ -45,9 +47,23 @@ const SidebarButton = ({ title, icon }) => {
 
 /* STEP 3 */
 export default function HomePage() {
+  const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  
+  const post = useSelector((state) => state.post);
+  const [pageNum, setPageNum] = useState(2);
+  const handleNext = () => {
+    // setHasMore(post.totalPageNum >= page);
+    setPageNum((pageNum) => pageNum + 1);
+    dispatch(postActions.postsRequest(pageNum));
+  };
+
   useEffect(() => {
+    dispatch(postActions.postsRequest());
+    //eslint-disable-next-line
+  }, []);
+  useEffect(() => {
+    dispatch(authActions.getCurrentUser());
+    //eslint-disable-next-line
   }, []);
 
   if (!isAuthenticated) return <Redirect to="/auth" />;
@@ -67,10 +83,31 @@ export default function HomePage() {
         className="d-flex flex-column align-items-center posts-container"
       >
         <Composer />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
+        {/* {post.loading ? (
+          <h2>Loading</h2>
+        ) : (
+          post.posts.map((p) => <Post key={p._id} {...p} />)
+        )} */}
+        {post.loading ? (
+          <h2>Loading</h2>
+        ) : (
+          <InfiniteScroll
+            dataLength={post.numPosts || 10} //This is important field to render the next data
+            next={() => handleNext()}
+            hasMore={post.hasMore}
+            loader={<h4>Loading...</h4>}
+            scrollableTarget="scrollingElement"
+            endMessage={
+              <p style={{ textAlign: "center" }}>
+                <b>You have seen it all!</b>
+              </p>
+            }
+          >
+            {post.posts.map((p) => (
+              <Post key={p._id} {...p} />
+            ))}
+          </InfiniteScroll>
+        )}
       </Col>
       <Col></Col>
     </Row>

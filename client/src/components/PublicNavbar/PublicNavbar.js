@@ -2,13 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import {
-  Nav,
-  Form,
-  Navbar,
-  FormControl,
-  NavDropdown,
-} from "react-bootstrap";
+import { Nav, Form, Navbar, FormControl, NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./style.css";
@@ -18,7 +12,7 @@ import { authActions } from "../../redux/actions";
 
 const PublicNavbar = () => {
   const dispatch = useDispatch();
-  const { loading, isAuthenticated } = useSelector((state) => state.auth);
+  const { loading, isAuthenticated, user } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(authActions.logout());
@@ -27,8 +21,9 @@ const PublicNavbar = () => {
   const authLinks = (
     <Nav>
       <Nav.Link href="/PrimeTimeTran">
-        <div className="nav-icon">
-          <FontAwesomeIcon icon="user" size="lg" />
+        <div className="">
+          <img className="w-100 rounded-circle" src={user.avatarUrl} alt="" />
+          {/* <FontAwesomeIcon icon="user" size="lg" /> */}
         </div>
       </Nav.Link>
       <Nav.Link href="#create">
@@ -55,7 +50,7 @@ const PublicNavbar = () => {
           </div>
         }
       >
-        <NavDropdown.Item href="#action/3.1">Loi V Tran</NavDropdown.Item>
+        <NavDropdown.Item href="#action/3.1">{user.name}</NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item onClick={handleLogout} href="#action/3.4">
           Log out
