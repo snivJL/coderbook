@@ -1,5 +1,6 @@
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
+const Reaction = require("../models/Reaction");
 
 const {
   AppError,
@@ -17,7 +18,8 @@ postController.create = catchAsync(async (req, res) => {
 postController.readAll = catchAsync(async (req, res, next) => {
   const post = await Post.find({})
     .populate("owner")
-    .populate({ path: "comments", populate: { path: "owner", model: "User" } });
+    .populate({ path: "comments", populate: { path: "owner", model: "User" } })
+    .populate("reactions");
   console.log(post);
   if (!post)
     return next(new AppError(404, "Posts not found", "Get All Posts Error"));
@@ -88,6 +90,28 @@ postController.createComment = catchAsync(async (req, res, next) => {
   await post.execPopulate();
   return sendResponse(res, 200, true, { post }, null, "Comment created!");
 });
+
+postController.createReaction = catchAsync(async (req, res, next) => {
+  console.log(req.body.body);
+
+  const reaction = await Reaction.create({
+    body: req.body.body,
+    owner: req.userId,
+    post: req.params.id,
+  });
+  const post = await Post.findById(req.params.id);
+  post.reactions.push({
+    owner: req.userId,
+    body: reaction.body,
+    postId: req.params.id,
+  });
+
+  await post.save();
+  await post.populate("comments");
+  await post.execPopulate();
+  return sendResponse(res, 200, true, { post }, null, "Reaction created!");
+});
+
 postController.list = catchAsync(async (req, res) => {
   return sendResponse(
     res,

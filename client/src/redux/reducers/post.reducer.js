@@ -36,6 +36,8 @@ const postReducer = (state = initialState, action) => {
         loading: false,
         selectedBlog: payload,
       };
+    case types.SELECT_BLOG:
+      return { ...state, selectedBlog: payload };
 
     case types.CREATE_POST_FAILURE:
     case types.UPDATE_POST_FAILURE:

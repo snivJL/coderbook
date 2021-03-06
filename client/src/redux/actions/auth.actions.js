@@ -28,7 +28,7 @@ const loginFacebookRequest = (user) => async (dispatch) => {
     const name = res.data.user.name;
     toast.success(`Welcome ${name}`);
 
-    dispatch({ type: types.LOGIN_FACEBOOK_SUCCESS, payload: res.data.user });
+    dispatch({ type: types.LOGIN_FACEBOOK_SUCCESS, payload: res.data });
     api.defaults.headers.common["authorization"] =
       "Bearer " + res.data.accessToken;
     localStorage.setItem("accessToken", res.data.accessToken);

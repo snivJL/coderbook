@@ -11,6 +11,11 @@ router.post(
   authMiddleware.loginRequired,
   postsController.createComment
 );
+router.post(
+  "/:id/reactions",
+  authMiddleware.loginRequired,
+  postsController.createReaction
+);
 router.get("/:id", postsController.read);
 router.put("/:id", postsController.update);
 router.delete("/:id", postsController.destroy);

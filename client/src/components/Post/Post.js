@@ -10,8 +10,9 @@ import {
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { commentActions } from "../../redux/actions/comment.actions";
+import { postActions } from "../../redux/actions/post.actions";
 import "./style.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Avatar = (props) => {
   return <img alt="profile" className="rounded-circle" src={props.url} />;
@@ -29,7 +30,6 @@ const CommentForm = ({ commentInput, postId }) => {
   };
   return (
     <Form onSubmit={onSubmit}>
-      {console.log(commentInput)}
       <Form.Row>
         <Col className="d-flex">
           <Form.Control
@@ -77,12 +77,26 @@ const POST_ACTIONS = [
   { title: "Share", icon: "share" },
 ];
 
-const PostActionButton = ({ commentInput, title, icon }) => {
+const PostActionButton = ({ commentInput, title, icon, selectBlog }) => {
   return (
     <>
       {title === "Comment" ? (
         <Button
           onClick={() => commentInput.current.focus()}
+          className="bg-light bg-white text-dark border-0"
+        >
+          {" "}
+          <FontAwesomeIcon
+            size="lg"
+            icon={icon}
+            color="black"
+            className="mr-2 action-icon"
+          />
+          {title}
+        </Button>
+      ) : title === "Like" ? (
+        <Button
+          onClick={selectBlog}
           className="bg-light bg-white text-dark border-0"
         >
           {" "}
@@ -110,12 +124,17 @@ const PostActionButton = ({ commentInput, title, icon }) => {
   );
 };
 
-const PostActions = ({ commentInput }) => {
+const PostActions = ({ commentInput, selectBlog }) => {
   return (
     <ButtonGroup aria-label="Basic example">
       {POST_ACTIONS.map((a) => {
         return (
-          <PostActionButton key={a.title} commentInput={commentInput} {...a} />
+          <PostActionButton
+            key={a.title}
+            commentInput={commentInput}
+            selectBlog={selectBlog}
+            {...a}
+          />
         );
       })}
     </ButtonGroup>
@@ -149,7 +168,11 @@ function PostHeader({ owner }) {
 export default function Post(props) {
   const { owner, body, _id, comments } = props;
   const commentInput = useRef(null);
-
+  const postId = useSelector((state) => state.post.selectedBlog);
+  const dispatch = useDispatch();
+  const selectBlog = () => {
+    dispatch(postActions.createPostReaction("Blog", _id, "Like"));
+  };
   return (
     <Card className="p-3 mb-3 shadow rounded-md">
       <PostHeader owner={owner} />
@@ -160,7 +183,7 @@ export default function Post(props) {
       />
       <PostReactions {...props} />
       <hr className="my-1" />
-      <PostActions commentInput={commentInput} />
+      <PostActions commentInput={commentInput} selectBlog={selectBlog} />
       <hr className="mt-1" />
       <PostComments comments={comments} />
       <CommentForm commentInput={commentInput} postId={_id} />

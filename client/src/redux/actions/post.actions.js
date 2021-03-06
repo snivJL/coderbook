@@ -126,22 +126,21 @@ const deletePost = (postId) => async (dispatch) => {
   }
 };
 
-const createPostReaction = (targetType, targetId, emoji) => async (
-  dispatch
-) => {
+const createPostReaction = (targetType, targetId, body) => async (dispatch) => {
+  console.log(targetId);
   dispatch({ type: types.SEND_REACTION_REQUEST, payload: null });
   try {
-    const res = await api.post(`/reactions`, { targetType, targetId, emoji });
+    const { data } = await api.post(`/posts/${targetId}/reactions`, { body });
     if (targetType === "Blog") {
       dispatch({
-        payload: res.data.data,
+        payload: data.data,
         type: types.POST_REACTION_SUCCESS,
       });
     }
     if (targetType === "Review") {
       dispatch({
         type: types.REVIEW_REACTION_SUCCESS,
-        payload: { reactions: res.data.data, reviewId: targetId },
+        payload: { reactions: data.data, reviewId: targetId },
       });
     }
   } catch (error) {
@@ -149,6 +148,9 @@ const createPostReaction = (targetType, targetId, emoji) => async (
   }
 };
 
+const selectBlog = (postId) => async (dispatch) => {
+  dispatch({ type: types.SELECT_BLOG, payload: postId });
+};
 export const postActions = {
   postsRequest,
   getSinglePost,
@@ -157,4 +159,5 @@ export const postActions = {
   updatePost,
   deletePost,
   createPostReaction,
+  selectBlog,
 };
