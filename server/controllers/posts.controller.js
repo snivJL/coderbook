@@ -15,7 +15,9 @@ postController.create = catchAsync(async (req, res) => {
 });
 
 postController.readAll = catchAsync(async (req, res, next) => {
-  const post = await Post.find({}).populate("owner").populate("comments");
+  const post = await Post.find({})
+    .populate("owner")
+    .populate({ path: "comments", populate: { path: "owner", model: "User" } });
   console.log(post);
   if (!post)
     return next(new AppError(404, "Posts not found", "Get All Posts Error"));
