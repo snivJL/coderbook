@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Col,
   Form,
@@ -11,14 +11,14 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { commentActions } from "../../redux/actions/comment.actions";
 import "./style.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const Avatar = (props) => {
   return <img alt="profile" className="rounded-circle" src={props.url} />;
 };
 
 /* STEP 4 */
-const CommentForm = ({ postId }) => {
+const CommentForm = ({ commentInput, postId }) => {
   const dispatch = useDispatch();
   // const userId = useSelector((state) => state.auth.user.id);
   const [comment, setComment] = useState("");
@@ -29,9 +29,11 @@ const CommentForm = ({ postId }) => {
   };
   return (
     <Form onSubmit={onSubmit}>
+      {console.log(commentInput)}
       <Form.Row>
         <Col className="d-flex">
           <Form.Control
+            ref={commentInput}
             onChange={onChange}
             size="sm"
             type="text"
@@ -75,36 +77,56 @@ const POST_ACTIONS = [
   { title: "Share", icon: "share" },
 ];
 
-const PostActionButton = ({ title, icon }) => {
+const PostActionButton = ({ commentInput, title, icon }) => {
   return (
-    <Button className="bg-light bg-white text-dark border-0">
-      {" "}
-      <FontAwesomeIcon
-        size="lg"
-        icon={icon}
-        color="black"
-        className="mr-2 action-icon"
-      />
-      {title}
-    </Button>
+    <>
+      {title === "Comment" ? (
+        <Button
+          onClick={() => commentInput.current.focus()}
+          className="bg-light bg-white text-dark border-0"
+        >
+          {" "}
+          <FontAwesomeIcon
+            size="lg"
+            icon={icon}
+            color="black"
+            className="mr-2 action-icon"
+          />
+          {title}
+        </Button>
+      ) : (
+        <Button className="bg-light bg-white text-dark border-0">
+          {" "}
+          <FontAwesomeIcon
+            size="lg"
+            icon={icon}
+            color="black"
+            className="mr-2 action-icon"
+          />
+          {title}
+        </Button>
+      )}
+    </>
   );
 };
 
-const PostActions = () => {
+const PostActions = ({ commentInput }) => {
   return (
     <ButtonGroup aria-label="Basic example">
       {POST_ACTIONS.map((a) => {
-        return <PostActionButton key={a.title} {...a} />;
+        return (
+          <PostActionButton key={a.title} commentInput={commentInput} {...a} />
+        );
       })}
     </ButtonGroup>
   );
 };
 
-const PostReactions = () => {
+const PostReactions = (props) => {
   return (
     <div className="d-flex justify-content-between my-2 mx-3">
       <p className="mb-0">Vinh Nguyen, Bitna Kim and 21 others</p>
-      <p className="mb-0">20 comments</p>
+      <p className="mb-0">{props.comments.length} comments</p>
     </div>
   );
 };
@@ -126,6 +148,8 @@ function PostHeader({ owner }) {
 
 export default function Post(props) {
   const { owner, body, _id, comments } = props;
+  const commentInput = useRef(null);
+
   return (
     <Card className="p-3 mb-3 shadow rounded-md">
       <PostHeader owner={owner} />
@@ -134,12 +158,12 @@ export default function Post(props) {
         variant="top"
         src="https://images.unsplash.com/photo-1529231812519-f0dcfdf0445f?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8dGFsZW50ZWR8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
       />
-      <PostReactions />
+      <PostReactions {...props} />
       <hr className="my-1" />
-      <PostActions />
+      <PostActions commentInput={commentInput} />
       <hr className="mt-1" />
       <PostComments comments={comments} />
-      <CommentForm postId={_id} />
+      <CommentForm commentInput={commentInput} postId={_id} />
     </Card>
   );
 }
