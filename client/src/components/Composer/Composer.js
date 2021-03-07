@@ -26,7 +26,6 @@ export default function Composer() {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(postActions.createPost(post.body));
-    console.log(post);
   };
   return (
     <Card className="mb-3 w-100 shadow composer-card">

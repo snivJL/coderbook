@@ -7,6 +7,7 @@ import {
   ListGroup,
   ButtonGroup,
   ListGroupItem,
+  Accordion,
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { commentActions } from "../../redux/actions/comment.actions";
@@ -63,24 +64,33 @@ const Comment = ({ body, owner }) => {
 };
 
 const PostComments = (props) => {
+  console.log("comments", props.comments.length);
   return (
-    <Card.Body>
-      <ListGroup className="list-group-flush">
-        {props.comments.length > 0 &&
-          props.comments.map((c) => <Comment key={c._id} {...c} />)}
-      </ListGroup>
-    </Card.Body>
+    <Accordion>
+      <Accordion.Toggle
+        className="mb-4 text-center w-100"
+        as={Button}
+        variant="light"
+        eventKey="0"
+      >
+        {props.comments.length > 0 ? "Show comments" : "Comment first!"}
+      </Accordion.Toggle>
+      <Card>
+        <Accordion.Collapse eventKey="0">
+          <Card.Body>
+            <ListGroup className="list-group-flush">
+              {props.comments.length > 0 &&
+                props.comments.map((c) => <Comment key={c._id} {...c} />)}
+            </ListGroup>
+          </Card.Body>
+        </Accordion.Collapse>
+      </Card>
+    </Accordion>
   );
 };
 
 const POST_ACTIONS = [
   { title: "Like", icon: "thumbs-up" },
-  { title: "Comment", icon: "comment" },
-  { title: "Share", icon: "share" },
-];
-
-const POST_REACTIONS = [
-  { title: "Like", icon: "far fa-thumbs-up" },
   { title: "Comment", icon: "comment" },
   { title: "Share", icon: "share" },
 ];
@@ -165,25 +175,33 @@ const PostReactions = (props) => {
   };
 
   //{Like: 1, Heart: 0, Care: 0, Laugh: 0, Angry: 0, …}
-  // const reactionsObject = getReactions(post.reactions);
-  // console.log(Object.entries(reactionsObject).filter((e) => e[1] > 0)[0]);
+  const reactionsObject = getReactions(post.reactions);
   let postReaction = [];
   let usersReacted = [];
+  let usersReactedNames = [];
   if (post.reactions && post.reactions.length > 0)
     postReaction = post.reactions
       .filter((p) => p.type === "Blog")
-      .map((u) =>
-        usersReacted.push({ name: u.owner.name, reaction: u.reaction })
-      );
+      .map((u) => {
+        usersReactedNames.push(u.owner.name);
+        usersReacted.push({ name: u.owner.name, reaction: u.reaction });
+        return u;
+      });
   const numReactions = postReaction.length;
   return (
     <div className="d-flex justify-content-between my-2 mx-3">
       <p className="mb-0">
-        <ReactionsModal usersReacted={usersReacted} />
+        <ReactionsModal
+          usersReacted={usersReacted}
+          usersReactedNames={usersReactedNames}
+          reactionsObject={reactionsObject}
+        />
         {numReactions > 0
           ? numReactions === 1
-            ? `${usersReacted} has reacted`
-            : `${usersReacted}and ${numReactions - 1} others have reacted`
+            ? `${usersReactedNames[0]} has reacted`
+            : `${[...usersReactedNames].slice(0, 2)} and ${
+                numReactions - 1
+              } others have reacted`
           : "No reactions"}
       </p>
       <p className="mb-0">{props.comments.length} comments</p>

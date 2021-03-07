@@ -84,7 +84,9 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         submitLoading: false,
-        selectedBlog: { ...state.selectedBlog, reactions: payload },
+        posts: state.posts.map((post) =>
+          post._id === payload._id ? payload : post
+        ),
       };
 
     case types.REVIEW_REACTION_SUCCESS:

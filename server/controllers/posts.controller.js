@@ -81,11 +81,13 @@ postController.update = catchAsync(async (req, res) => {
     req.params.id,
     { body: req.body.content },
     { new: true },
-    (err, post) => {
+    async (err, post) => {
       console.log({ err, post });
       if (!post) {
         res.status(404).json({ message: "Post not Found" });
       } else {
+        await post.populate("owner");
+        await post.execPopulate();
         res.json(post);
       }
     }
@@ -129,10 +131,16 @@ postController.createReaction = catchAsync(async (req, res, next) => {
   post.reactions.push(reaction);
 
   await post.save();
-  await post.populate({
-    path: "reactions",
-    populate: { path: "owner", model: "User" },
-  });
+  await post
+    .populate("owner")
+    .populate({
+      path: "reactions",
+      populate: { path: "owner", model: "User" },
+    })
+    .populate({
+      path: "comments",
+      populate: { path: "owner", model: "User" },
+    });
   await post.execPopulate();
   return sendResponse(res, 200, true, { post }, null, "Reaction created!");
 });
