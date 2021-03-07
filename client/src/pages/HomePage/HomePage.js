@@ -58,7 +58,12 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    dispatch(postActions.postsRequest());
+    dispatch(
+      postActions.postsRequest(undefined, undefined, null, null, {
+        key: "createdAt",
+        ascending: true,
+      })
+    );
     //eslint-disable-next-line
   }, []);
   useEffect(() => {

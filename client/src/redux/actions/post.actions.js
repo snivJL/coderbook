@@ -10,6 +10,7 @@ const postsRequest = (
   ownerId = null,
   sortBy = null
 ) => async (dispatch) => {
+  console.log(query);
   dispatch({ type: types.POST_REQUEST, payload: null });
   try {
     let queryString = "";
@@ -127,7 +128,6 @@ const deletePost = (postId) => async (dispatch) => {
 };
 
 const createPostReaction = (targetType, targetId, body) => async (dispatch) => {
-  console.log(targetId);
   dispatch({ type: types.SEND_REACTION_REQUEST, payload: null });
   try {
     const { data } = await api.post(`/posts/${targetId}/reactions`, { body });

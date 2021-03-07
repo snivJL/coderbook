@@ -47,7 +47,6 @@ userController.readMe = async (req, res) => {
   if (!user) {
     res.status(404).json({ message: "User not Found" });
   } else {
-    console.log(user);
     res.json(user);
   }
 };

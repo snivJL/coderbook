@@ -31,6 +31,9 @@ postController.readAll = catchAsync(async (req, res, next) => {
   if (page > pageCount) {
     page = pageCount;
   }
+  let sortBy = req.query.sortBy;
+  console.log(sortBy);
+  if (sortBy) post.sort((a, b) => b.createdAt - a.createdAt);
   res.json({
     page: page,
     pageCount: pageCount,
