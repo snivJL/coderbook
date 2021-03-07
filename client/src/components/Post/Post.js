@@ -13,6 +13,7 @@ import { commentActions } from "../../redux/actions/comment.actions";
 import { postActions } from "../../redux/actions/post.actions";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
+import EditModal from "./EditModal";
 
 const Avatar = (props) => {
   return <img alt="profile" className="rounded-circle" src={props.url} />;
@@ -150,7 +151,8 @@ const PostReactions = (props) => {
   );
 };
 
-function PostHeader({ owner }) {
+function PostHeader({ owner, post, postId }) {
+  const dispatch = useDispatch();
   return (
     <div className="d-flex align-items-center p-3">
       <Avatar
@@ -161,6 +163,17 @@ function PostHeader({ owner }) {
         }
       />
       <h3 className="font-weight-bold ml-3">{owner.name}</h3>
+      <div className="ml-auto rounded-circle">
+        <EditModal post={post} postId={postId} />
+      </div>
+      <Button
+        onClick={() => dispatch(postActions.deletePost(postId))}
+        variant="light"
+        size="sm"
+        className="rounded-circle"
+      >
+        <i className="fas fa-trash-alt"></i>
+      </Button>
     </div>
   );
 }
@@ -168,14 +181,13 @@ function PostHeader({ owner }) {
 export default function Post(props) {
   const { owner, body, _id, comments } = props;
   const commentInput = useRef(null);
-  const postId = useSelector((state) => state.post.selectedBlog);
   const dispatch = useDispatch();
   const selectBlog = () => {
     dispatch(postActions.createPostReaction("Blog", _id, "Like"));
   };
   return (
     <Card className="p-3 mb-3 shadow rounded-md">
-      <PostHeader owner={owner} />
+      <PostHeader owner={owner} post={body} postId={_id} />
       <div className="py-2"> {body}</div>
       <Card.Img
         variant="top"

@@ -17,7 +17,7 @@ router.post(
   postsController.createReaction
 );
 router.get("/:id", postsController.read);
-router.put("/:id", postsController.update);
-router.delete("/:id", postsController.destroy);
+router.put("/:id", authMiddleware.loginRequired, postsController.update);
+router.delete("/:id", authMiddleware.loginRequired, postsController.destroy);
 
 module.exports = router;

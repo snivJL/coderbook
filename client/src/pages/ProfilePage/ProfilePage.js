@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import Post from "../../components/Post";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../redux/actions/user.actions";
@@ -71,8 +71,8 @@ export default function ProfilePage() {
                   onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}
                 >
                   <Nav.Item>
-                    <Nav.Link className="text-secondary" href="/posts">
-                      Posts
+                    <Nav.Link className="text-secondary">
+                      <Link to="/">Posts</Link>
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>

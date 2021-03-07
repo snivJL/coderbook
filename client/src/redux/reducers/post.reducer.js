@@ -35,6 +35,9 @@ const postReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         selectedBlog: payload,
+        posts: state.posts.map((post) =>
+          post._id === payload._id ? payload : post
+        ),
       };
     case types.SELECT_BLOG:
       return { ...state, selectedBlog: payload };
@@ -57,6 +60,7 @@ const postReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         selectedBlog: {},
+        posts: state.posts.filter((post) => post._id !== payload._id),
       };
 
     case types.SEND_REACTION_REQUEST:

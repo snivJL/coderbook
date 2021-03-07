@@ -33,7 +33,6 @@ postController.readAll = catchAsync(async (req, res, next) => {
           populate: { path: "owner", model: "User" },
         })
         .populate("reactions"));
-  console.log(post);
   if (!post)
     return next(new AppError(404, "Posts not found", "Get All Posts Error"));
   const pageCount = Math.ceil(post.length / 10);
@@ -67,8 +66,8 @@ postController.read = catchAsync(async (req, res, next) => {
 
 postController.update = catchAsync(async (req, res) => {
   await Post.findByIdAndUpdate(
-    { _id: req.params.id },
-    { email: req.body.email },
+    req.params.id,
+    { body: req.body.content },
     { new: true },
     (err, post) => {
       console.log({ err, post });

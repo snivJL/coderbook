@@ -99,10 +99,13 @@ const updatePost = (postId, title, content, images) => async (dispatch) => {
     // let formData = new FormData();
     // formData.set("title", title);
     // formData.set("content", content);
-    const res = await api.put(`/posts/${postId}`, { title, content, images });
-
+    const { data } = await api.put(`/posts/${postId}`, {
+      title,
+      content,
+      images,
+    });
     dispatch({
-      payload: res.data.data,
+      payload: data,
       type: types.UPDATE_POST_SUCCESS,
     });
     dispatch(routeActions.redirect("__GO_BACK__"));
