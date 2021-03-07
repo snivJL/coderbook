@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { commentActions } from "../../redux/actions/comment.actions";
 import { postActions } from "../../redux/actions/post.actions";
 import "./style.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import EditModal from "./EditModal";
 
 const Avatar = (props) => {

@@ -20,7 +20,9 @@ const postReducer = (state = initialState, action) => {
     case types.POST_REQUEST_SUCCESS:
       return {
         ...state,
-        posts: [...state.posts, payload.posts].flat(),
+        posts: payload.searched
+          ? payload.posts
+          : [...state.posts, payload.posts].flat(),
         totalPageNum: payload.pageCount,
         numPosts: payload.numPosts,
         hasMore: payload.pageCount > payload.page,
@@ -53,6 +55,7 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        posts: [payload, ...state.posts],
       };
 
     case types.DELETE_POST_SUCCESS:

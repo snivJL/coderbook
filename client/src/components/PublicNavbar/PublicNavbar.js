@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -9,15 +9,24 @@ import "./style.css";
 
 import logo from "../../assets/site-identity.png";
 import { authActions } from "../../redux/actions";
+import { postActions } from "../../redux/actions/post.actions";
 
 const PublicNavbar = () => {
   const dispatch = useDispatch();
   const { loading, isAuthenticated, user } = useSelector((state) => state.auth);
-
+  const [searchTerm, setSearchTerm] = useState("");
   const handleLogout = () => {
     dispatch(authActions.logout());
   };
 
+  const handleChange = (e) => {
+    setSearchTerm(e.target.value);
+    console.log(searchTerm);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(postActions.postsRequest(undefined, undefined, searchTerm));
+  };
   const authLinks = (
     <Nav>
       <Link to={`/${user._id}`}>
@@ -75,8 +84,9 @@ const PublicNavbar = () => {
       <Navbar.Brand as={Link} to="/" className="mr-auto ">
         <img src={logo} alt="coderbook" width="50px" />
       </Navbar.Brand>
-      <Form inline className="ml-5 w-100">
+      <Form onSubmit={(e) => handleSubmit(e)} inline className="ml-5 w-100">
         <FormControl
+          onChange={handleChange}
           type="text"
           placeholder="Search"
           className="mr-sm-2 rounded-pill border-0 rounded-md search-bar"

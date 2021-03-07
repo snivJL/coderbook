@@ -11,7 +11,9 @@ const {
 const postController = {};
 
 postController.create = catchAsync(async (req, res) => {
-  const post = await Post.create({ owner: req.userId, ...req.body });
+  const post = await await Post.create({ owner: req.userId, ...req.body });
+  await post.populate("owner");
+  await post.execPopulate();
   res.json(post);
 });
 
@@ -35,6 +37,12 @@ postController.readAll = catchAsync(async (req, res, next) => {
         .populate("reactions"));
   if (!post)
     return next(new AppError(404, "Posts not found", "Get All Posts Error"));
+  if (req.query.content) {
+    let content = req.query.content.$regex;
+
+    post = post.filter((p) => p.body.includes(content));
+    // post.find({ body: content });
+  }
   const pageCount = Math.ceil(post.length / 10);
   let page = parseInt(req.query.page);
   if (!page) {
@@ -45,11 +53,13 @@ postController.readAll = catchAsync(async (req, res, next) => {
   }
   let sortBy = req.query.sortBy;
   if (sortBy) post.sort((a, b) => b.createdAt - a.createdAt);
+
   res.json({
     page: page,
     pageCount: pageCount,
     numPosts: post.length,
     posts: post.slice(page * 10 - 10, page * 10),
+    searched: req.query.content ? true : false,
   });
 });
 

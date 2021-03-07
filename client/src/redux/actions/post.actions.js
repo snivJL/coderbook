@@ -10,12 +10,11 @@ const postsRequest = (
   ownerId = null,
   sortBy = null
 ) => async (dispatch) => {
-  console.log(query);
   dispatch({ type: types.POST_REQUEST, payload: null });
   try {
     let queryString = "";
     if (query) {
-      queryString = `&title[$regex]=${query}&title[$options]=i`;
+      queryString = `&content[$regex]=${query}&content[$options]=i`;
     }
     if (ownerId) {
       queryString = `${queryString}&author=${ownerId}`;
@@ -80,10 +79,10 @@ const createPost = (body, images) => async (dispatch) => {
     // const res = await api.post("/posts", formData);
 
     // Upload images using cloudinary already
-    const res = await api.post("/posts", { body, images });
+    const { data } = await api.post("/posts", { body, images });
 
     dispatch({
-      payload: res.data.data,
+      payload: data,
       type: types.CREATE_POST_SUCCESS,
     });
     dispatch(routeActions.redirect("__GO_BACK__"));
