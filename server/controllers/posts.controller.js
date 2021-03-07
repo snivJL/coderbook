@@ -16,10 +16,23 @@ postController.create = catchAsync(async (req, res) => {
 });
 
 postController.readAll = catchAsync(async (req, res, next) => {
-  const post = await Post.find({})
-    .populate("owner")
-    .populate({ path: "comments", populate: { path: "owner", model: "User" } })
-    .populate("reactions");
+  let author = req.query.author;
+  let post = {};
+  author
+    ? (post = await Post.find({ owner: author })
+        .populate("owner")
+        .populate({
+          path: "comments",
+          populate: { path: "owner", model: "User" },
+        })
+        .populate("reactions"))
+    : (post = await Post.find({})
+        .populate("owner")
+        .populate({
+          path: "comments",
+          populate: { path: "owner", model: "User" },
+        })
+        .populate("reactions"));
   console.log(post);
   if (!post)
     return next(new AppError(404, "Posts not found", "Get All Posts Error"));
@@ -32,7 +45,6 @@ postController.readAll = catchAsync(async (req, res, next) => {
     page = pageCount;
   }
   let sortBy = req.query.sortBy;
-  console.log(sortBy);
   if (sortBy) post.sort((a, b) => b.createdAt - a.createdAt);
   res.json({
     page: page,

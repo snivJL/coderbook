@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 
+import Post from "../../components/Post";
 import { useParams } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../redux/actions/user.actions";
+import { postActions } from "../../redux/actions/post.actions";
 import {
   Row,
   Col,
@@ -22,12 +24,21 @@ export default function ProfilePage() {
   const userID = useParams();
   const dispatch = useDispatch();
   const { selectedUser, loading } = useSelector((state) => state.user);
+  const post = useSelector((state) => state.post);
   useEffect(() => {
     dispatch(userActions.searchSingleUser(userID.id));
   }, [dispatch, userID]);
+  useEffect(() => {
+    dispatch(
+      postActions.postsRequest(undefined, undefined, null, userID.id, {
+        key: "createdAt",
+        ascending: true,
+      })
+    );
+  }, [dispatch, userID]);
   return (
     <>
-      {loading ? (
+      {loading || post.loading ? (
         <Spinner animation="border" />
       ) : (
         <div>
@@ -115,17 +126,9 @@ export default function ProfilePage() {
               </Col>
               <Col xs={7} className="posts-col">
                 <Composer />
-                <h1>Post</h1>
-                <h1>Post</h1>
-                <h1>Post</h1>
-                <h1>Post</h1>
-                <h1>Post</h1>
-                <h1>Post</h1>
-                <h1>Post</h1>
-                <h1>Post</h1>
-                <h1>Post</h1>
-                <h1>Post</h1>
-                <h1>Post</h1>
+                {post.posts.map((p) => (
+                  <Post key={p._id} {...p} />
+                ))}
               </Col>
             </Container>
           </Row>
