@@ -130,9 +130,13 @@ const deletePost = (postId) => async (dispatch) => {
 };
 
 const createPostReaction = (targetType, targetId, body) => async (dispatch) => {
+  console.log(targetType);
   dispatch({ type: types.SEND_REACTION_REQUEST, payload: null });
   try {
-    const { data } = await api.post(`/posts/${targetId}/reactions`, { body });
+    const { data } = await api.post(`/posts/${targetId}/reactions`, {
+      targetType,
+      body,
+    });
     if (targetType === "Blog") {
       dispatch({
         payload: data.data,

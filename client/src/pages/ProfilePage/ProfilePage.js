@@ -39,7 +39,9 @@ export default function ProfilePage() {
   return (
     <>
       {loading || post.loading ? (
-        <Spinner animation="border" />
+        <Container className="centered flex-column">
+          <Spinner animation="border" />
+        </Container>
       ) : (
         <div>
           <Row className="centered hero">

@@ -12,8 +12,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { commentActions } from "../../redux/actions/comment.actions";
 import { postActions } from "../../redux/actions/post.actions";
 import "./style.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import EditModal from "./EditModal";
+import ReactionsModal from "./ReactionsModal";
 
 const Avatar = (props) => {
   return <img alt="profile" className="rounded-circle" src={props.url} />;
@@ -74,6 +75,12 @@ const PostComments = (props) => {
 
 const POST_ACTIONS = [
   { title: "Like", icon: "thumbs-up" },
+  { title: "Comment", icon: "comment" },
+  { title: "Share", icon: "share" },
+];
+
+const POST_REACTIONS = [
+  { title: "Like", icon: "far fa-thumbs-up" },
   { title: "Comment", icon: "comment" },
   { title: "Share", icon: "share" },
 ];
@@ -141,11 +148,44 @@ const PostActions = ({ commentInput, selectBlog }) => {
     </ButtonGroup>
   );
 };
-
 const PostReactions = (props) => {
+  const post = useSelector((state) => state.post.posts).find(
+    (p) => p._id === props._id
+  );
+  const getReactions = (post) => {
+    return post.reduce(
+      (acc, p) => {
+        if (p.reaction in acc) {
+          acc[p.reaction]++;
+        }
+        return acc;
+      },
+      { Like: 0, Heart: 0, Care: 0, Laugh: 0, Angry: 0, Sad: 0 }
+    );
+  };
+
+  //{Like: 1, Heart: 0, Care: 0, Laugh: 0, Angry: 0, …}
+  // const reactionsObject = getReactions(post.reactions);
+  // console.log(Object.entries(reactionsObject).filter((e) => e[1] > 0)[0]);
+  let postReaction = [];
+  let usersReacted = [];
+  if (post.reactions && post.reactions.length > 0)
+    postReaction = post.reactions
+      .filter((p) => p.type === "Blog")
+      .map((u) =>
+        usersReacted.push({ name: u.owner.name, reaction: u.reaction })
+      );
+  const numReactions = postReaction.length;
   return (
     <div className="d-flex justify-content-between my-2 mx-3">
-      <p className="mb-0">Vinh Nguyen, Bitna Kim and 21 others</p>
+      <p className="mb-0">
+        <ReactionsModal usersReacted={usersReacted} />
+        {numReactions > 0
+          ? numReactions === 1
+            ? `${usersReacted} has reacted`
+            : `${usersReacted}and ${numReactions - 1} others have reacted`
+          : "No reactions"}
+      </p>
       <p className="mb-0">{props.comments.length} comments</p>
     </div>
   );

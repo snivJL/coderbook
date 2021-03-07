@@ -34,14 +34,16 @@ postController.readAll = catchAsync(async (req, res, next) => {
           path: "comments",
           populate: { path: "owner", model: "User" },
         })
-        .populate("reactions"));
+        .populate({
+          path: "reactions",
+          populate: { path: "owner", model: "User" },
+        }));
   if (!post)
     return next(new AppError(404, "Posts not found", "Get All Posts Error"));
   if (req.query.content) {
     let content = req.query.content.$regex;
 
     post = post.filter((p) => p.body.includes(content));
-    // post.find({ body: content });
   }
   const pageCount = Math.ceil(post.length / 10);
   let page = parseInt(req.query.page);
@@ -116,22 +118,21 @@ postController.createComment = catchAsync(async (req, res, next) => {
 });
 
 postController.createReaction = catchAsync(async (req, res, next) => {
-  console.log(req.body.body);
+  console.log(req.body);
 
   const reaction = await Reaction.create({
-    body: req.body.body,
+    type: req.body.targetType,
+    reaction: req.body.body,
     owner: req.userId,
-    post: req.params.id,
   });
   const post = await Post.findById(req.params.id);
-  post.reactions.like({
-    owner: req.userId,
-    body: reaction.body,
-    postId: req.params.id,
-  });
+  post.reactions.push(reaction);
 
   await post.save();
-  await post.populate("comments");
+  await post.populate({
+    path: "reactions",
+    populate: { path: "owner", model: "User" },
+  });
   await post.execPopulate();
   return sendResponse(res, 200, true, { post }, null, "Reaction created!");
 });
