@@ -118,7 +118,6 @@ postController.createComment = catchAsync(async (req, res, next) => {
   await post.execPopulate();
   return sendResponse(res, 200, true, { post }, null, "Comment created!");
 });
-
 postController.createReaction = catchAsync(async (req, res, next) => {
   console.log(req.body);
 

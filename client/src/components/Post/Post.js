@@ -15,8 +15,9 @@ import { postActions } from "../../redux/actions/post.actions";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import EditModal from "./EditModal";
+import EditComment from "../Comment/EditComment";
 import ReactionsModal from "./ReactionsModal";
-
+import { Link } from "react-router-dom";
 const Avatar = (props) => {
   return <img alt="profile" className="rounded-circle" src={props.url} />;
 };
@@ -49,22 +50,43 @@ const CommentForm = ({ commentInput, postId }) => {
   );
 };
 
-const Comment = ({ body, owner }) => {
+const Comment = ({ body, owner, _id }) => {
+  const userId = useSelector((state) => state.auth.user._id);
+  const dispatch = useDispatch();
   return (
     <ListGroupItem className="justify-content-start border-bottom-0 pr-0 py-0">
-      <Avatar url={owner.avatarUrl && owner.avatarUrl} />
-      <div className="col">
-        <div className="comment-bubble">
+      <div className="col d-flex py-2 align-items-center">
+        <Link to={`/${owner._id}`}>
+          <Avatar url={owner.avatarUrl && owner.avatarUrl} />
+        </Link>
+        <div className="ml-2 comment-bubble">
           <div className="font-weight-bold">{owner.name}</div>
           <p>{body}</p>
         </div>
+        {owner._id === userId && (
+          <>
+            <div className="ml-auto rounded-circle">
+              <EditComment comment={body} commentId={_id} />
+            </div>
+            <Button
+              onClick={() => dispatch(commentActions.deleteComment(_id))}
+              variant="light"
+              size="sm"
+              className="rounded-circle"
+            >
+              <i className="fas fa-trash-alt"></i>
+            </Button>
+          </>
+        )}
       </div>
     </ListGroupItem>
   );
 };
 
 const PostComments = (props) => {
-  console.log("comments", props.comments.length);
+  const post = useSelector((state) => state.post);
+  let postToShow = {};
+  postToShow = post ? post : props.comments;
   return (
     <Accordion>
       <Accordion.Toggle
@@ -79,8 +101,10 @@ const PostComments = (props) => {
         <Accordion.Collapse eventKey="0">
           <Card.Body>
             <ListGroup className="list-group-flush">
-              {props.comments.length > 0 &&
-                props.comments.map((c) => <Comment key={c._id} {...c} />)}
+              {!post.comments
+                ? props.comments.length > 0 &&
+                  props.comments.map((c) => <Comment key={c._id} {...c} />)
+                : null}
             </ListGroup>
           </Card.Body>
         </Accordion.Collapse>

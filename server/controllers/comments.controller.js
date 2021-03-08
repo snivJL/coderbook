@@ -36,7 +36,7 @@ commentsController.read = async (req, res) => {
 commentsController.update = async (req, res) => {
   await Comment.findByIdAndUpdate(
     { _id: req.params.id },
-    { email: req.body.email },
+    { body: req.body.content },
     { new: true },
     (err, comment) => {
       console.log({ err, comment });

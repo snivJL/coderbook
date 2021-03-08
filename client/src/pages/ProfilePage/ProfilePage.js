@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Post from "../../components/Post";
 import { useParams, Link } from "react-router-dom";
@@ -22,20 +22,24 @@ import Composer from "../../components/Composer/Composer";
 
 export default function ProfilePage() {
   const userID = useParams();
+  console.log(userID);
   const dispatch = useDispatch();
+  const [loaded, setLoaded] = useState(false);
   const { selectedUser, loading } = useSelector((state) => state.user);
   const post = useSelector((state) => state.post);
   useEffect(() => {
     dispatch(userActions.searchSingleUser(userID.id));
+    setLoaded(true);
   }, [dispatch, userID]);
   useEffect(() => {
-    dispatch(
-      postActions.postsRequest(undefined, undefined, null, userID.id, {
-        key: "createdAt",
-        ascending: true,
-      })
-    );
-  }, [dispatch, userID]);
+    if (loaded)
+      dispatch(
+        postActions.postsRequest(undefined, undefined, null, userID.id, {
+          key: "createdAt",
+          ascending: true,
+        })
+      );
+  }, [dispatch, userID, loaded]);
   return (
     <>
       {loading || post.loading ? (

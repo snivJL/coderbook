@@ -93,26 +93,23 @@ export default function HomePage() {
         ) : (
           post.posts.map((p) => <Post key={p._id} {...p} />)
         )} */}
-        {post.loading ? (
-          <h2>Loading</h2>
-        ) : (
-          <InfiniteScroll
-            dataLength={post.numPosts || 10} //This is important field to render the next data
-            next={() => handleNext()}
-            hasMore={post.hasMore}
-            loader={<h4>Loading...</h4>}
-            scrollableTarget="scrollingElement"
-            endMessage={
-              <p style={{ textAlign: "center" }}>
-                <b>You have seen it all!</b>
-              </p>
-            }
-          >
-            {post.posts.map((p) => (
-              <Post key={p._id} {...p} />
-            ))}
-          </InfiniteScroll>
-        )}
+
+        <InfiniteScroll
+          dataLength={post.numPosts || 10} //This is important field to render the next data
+          next={() => handleNext()}
+          hasMore={post.hasMore}
+          loader={<h4>Loading...</h4>}
+          scrollableTarget="scrollingElement"
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>You have seen it all!</b>
+            </p>
+          }
+        >
+          {post.posts.map((p) => (
+            <Post key={p._id} {...p} />
+          ))}
+        </InfiniteScroll>
       </Col>
       <Col></Col>
     </Row>

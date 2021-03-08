@@ -121,9 +121,9 @@ export default function RegisterPage() {
                 >
                   Create an account
                 </Button>
-                <Form.Group>
+                <Form.Group className="d-flex py-4 w-100">
                   <FacebookLogin
-                    className="mx-auto w-30 font-weight-bold"
+                    className="w-30 mx-auto font-weight-bold pr-4"
                     appId={FB_APP_ID}
                     icon="fa-facebook"
                     fields="name,email,picture"
@@ -133,6 +133,7 @@ export default function RegisterPage() {
                     onFailure={() => console.log("Facebook Login Failure")}
                   />
                   <GoogleLogin
+                    className="w-30 mx-auto  font-weight-bold "
                     clientId={GOOGLE_CLIENT_ID}
                     buttonText="Login with Google"
                     onSuccess={(u) =>

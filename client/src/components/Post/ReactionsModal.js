@@ -1,18 +1,9 @@
 import React, { useState } from "react";
 import { Button, Modal, Nav } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { postActions } from "../../redux/actions/post.actions";
 
-const ReactionsModal = ({
-  usersReacted,
-  reactionsObject,
-  usersReactedNames,
-}) => {
-  const dispatch = useDispatch();
+const ReactionsModal = ({ usersReacted, reactionsObject }) => {
   const [show, setShow] = useState(false);
   const [usersList, setUsersList] = useState("");
-  // console.log(reactionsObject);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -53,17 +44,20 @@ const ReactionsModal = ({
               }
             >
               <Nav.Link>
-                <i className="far fa-heart"></i>
+                <i className="far fa-heart text-danger"></i>
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link>
-                <i className="far fa-laugh"></i>
+                <i className="far fa-laugh text-warning"></i>
               </Nav.Link>
             </Nav.Item>
             <Nav.Item></Nav.Item>
           </Nav>
-          {usersList}
+          <div className="d-flex flex-column mx-4">
+            {usersList.length > 0 &&
+              usersList.map((u) => <p className=" py-2 ">{u}</p>)}
+          </div>
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>

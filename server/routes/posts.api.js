@@ -11,6 +11,7 @@ router.post(
   authMiddleware.loginRequired,
   postsController.createComment
 );
+
 router.post(
   "/:id/reactions",
   authMiddleware.loginRequired,
